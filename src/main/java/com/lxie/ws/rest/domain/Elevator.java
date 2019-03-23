@@ -12,17 +12,23 @@ public class Elevator {
     @JsonIgnore
     private int id;
 
-    @JsonIgnore
-    private int direction = -1;      // 1 going up, 0 going down, -1 stop
+    @JsonProperty("direction")
+    private int direction = -1;      // 1 going up, 0 going down, -1 stop/idle
+
+    @JsonProperty("move")
+    private boolean move = false;
+
+    @JsonProperty("goal")
+    private int goalFloor = -1;
 
     @JsonProperty("floor")
     private int currentFloor = 1;
 
     @JsonProperty("users")
-    private Set<Integer> currentUserIds = new HashSet<Integer>();
+    private Set<Integer> currentUserIds = new HashSet<>();
 
     @JsonIgnore
-    private Set<User> currentUsers = new HashSet<User>();     // used for result display
+    private Set<User> currentUsers = new HashSet<>();     // used for result display
 
     public Elevator(int id) {
         this.id = id;
@@ -44,12 +50,28 @@ public class Elevator {
         this.direction = direction;
     }
 
+    public boolean isMove() {
+        return move;
+    }
+
+    public void setMove(boolean move) {
+        this.move = move;
+    }
+
     public int getCurrentFloor() {
         return currentFloor;
     }
 
     public void setCurrentFloor(int currentFloor) {
         this.currentFloor = currentFloor;
+    }
+
+    public int getGoalFloor() {
+        return goalFloor;
+    }
+
+    public void setGoalFloor(int goalFloor) {
+        this.goalFloor = goalFloor;
     }
 
     public Set<Integer> getCurrentUserIds() {
@@ -71,11 +93,22 @@ public class Elevator {
     public void reset() {
         currentFloor = 1;
         direction = -1;
+        move = false;
+        goalFloor = -1;
     }
 
-    public void move() {
+    public void moveNext() {
+        if(!move) {
+            move = direction != -1;
+            return;
+        }
         if(direction == 1 && currentFloor < 11) currentFloor++;
         if(direction == 0 && currentFloor > 1) currentFloor--;
+        if(currentFloor == goalFloor && direction != -1) {
+            move = false;
+            goalFloor = -1;
+            direction = -1;
+        }
     }
 
 }
