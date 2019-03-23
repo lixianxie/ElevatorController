@@ -57,7 +57,8 @@ public class ElevatorServiceImpl implements ElevatorService {
                 .map(Elevator::getCurrentUserIds)
                 .forEach(userIds -> allUsers.addAll(userIds));
 
-        if(workload.getGotos()
+        if(workload.getGotos().size() > 0 &&
+                workload.getGotos()
                 .stream()
                 .filter(aGoto -> allUsers.contains(aGoto[0]))
                 .collect(Collectors.toList())
