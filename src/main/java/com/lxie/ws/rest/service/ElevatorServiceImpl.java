@@ -55,7 +55,7 @@ public class ElevatorServiceImpl implements ElevatorService {
         List<Integer> allUsers = new ArrayList<>();
         elevators.stream()
                 .map(Elevator::getCurrentUserIds)
-                .forEach(userIds -> allUsers.addAll(userIds));
+                .forEach(allUsers::addAll);
 
         if(workload.getGotos().size() > 0 &&
                 workload.getGotos()
