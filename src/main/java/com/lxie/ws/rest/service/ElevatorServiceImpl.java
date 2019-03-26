@@ -158,7 +158,7 @@ public class ElevatorServiceImpl implements ElevatorService {
         for(int i=1; i<=11; i++) {
             if(isFloorEmpty(i))continue;
 
-            int minDistance = 10, minPower = 6*10;
+            int minDistance = 11, minPower = 6*11;
 
             Elevator closestElevator = null;
 
